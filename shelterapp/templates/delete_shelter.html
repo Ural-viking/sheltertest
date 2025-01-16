@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Shelter</title>
+</head>
+<body>
+    <h2>Delete Shelter</h2>
+    <p>Are you sure you want to delete "{{ shelter.name }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+        <a href="{% url 'shelter_list' %}">Cancel</a>
+    </form>
+</body>
+</html>

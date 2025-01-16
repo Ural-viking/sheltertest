@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Shelters</title>
+</head>
+<body>
+    <h2>Search Shelters</h2>
+    <form method="get" action="{% url 'search_shelters' %}">
+        <input type="text" name="q" placeholder="Search for shelters..." value="{{ query }}">
+        <button type="submit">Search</button>
+    </form>
+    <ul>
+        {% for shelter in shelters %}
+            <li>
+                <h3>{{ shelter.name }}</h3>
+                <p>{{ shelter.address }}</p>
+                <p>{{ shelter.description }}</p>
+                {% if shelter.photo %}
+                    <img src="{{ shelter.photo.url }}" alt="{{ shelter.name }}" style="max-width: 200px;">
+                {% endif %}
+                {% if shelter.id not in user_shelters %}
+                    <a href="{% url 'join_shelter' shelter.id %}">Join</a>
+                {% else %}
+                    <p>You are already a member of this shelter.</p>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Shelters</title>
+    <style>
+        .shelter-list {
+            max-height: 800px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>My Shelters</h2>
+    <a href="{% url 'create_shelter' %}">Create a new shelter</a>
+    <a href="{% url 'search_shelters' %}">Search for shelters</a>
+    <div class="shelter-list">
+        <ul>
+            {% for shelter in shelters %}
+                <li>
+                    <h3>{{ shelter.name }}</h3>
+                    <p>{{ shelter.address }}</p>
+                    <p>{{ shelter.description }}</p>
+                    {% if shelter.photo %}
+                        <img src="{{ shelter.photo.url }}" alt="{{ shelter.name }}" style="max-width: 200px;">
+                    {% endif %}
+                    <a href="{% url 'edit_shelter' shelter.id %}">Edit</a>
+                    <a href="{% url 'delete_shelter' shelter.id %}">Delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
