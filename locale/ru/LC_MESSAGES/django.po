@@ -1,0 +1,39 @@
+#: forms.py:12
+msgid "This field is required."
+msgstr "Это поле обязательно."
+
+#: forms.py:13
+msgid "Enter a valid email address."
+msgstr "Введите действительный адрес электронной почты."
+
+#: forms.py:14
+msgid "The two password fields didn’t match."
+msgstr "Введенные пароли не совпадают."
+
+#: forms.py:15
+msgid "Ensure this value has at least 8 characters (it has %(limit_value)d)."
+msgstr "Убедитесь, что это значение содержит не менее 8 символов (оно содержит %(limit_value)d)."
+
+#: forms.py:16
+msgid "This password is too short. It must contain at least %(limit_value)d characters."
+msgstr "Этот пароль слишком короткий. Он должен содержать не менее %(limit_value)d символов."
+
+#: forms.py:17
+msgid "This password is too common."
+msgstr "Этот пароль слишком распространен."
+
+#: forms.py:18
+msgid "This password is entirely numeric."
+msgstr "Этот пароль состоит только из цифр."
+
+#: forms.py:19
+msgid "This field is required."
+msgstr "Это поле обязательно."
+
+#: forms.py:20
+msgid "Please enter the correct username and password. Note that both fields may be case-sensitive."
+msgstr "Пожалуйста, введите правильное имя пользователя и пароль. Обратите внимание, что оба поля могут быть чувствительны к регистру."
+
+#: forms.py:21
+msgid "This account is inactive."
+msgstr "Этот аккаунт отключен."

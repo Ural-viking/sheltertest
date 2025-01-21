@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ shelter.name }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .navbar-custom {
+            background-color:rgb(112, 41, 245);
+        }
+        .navbar-custom .navbar-brand {
+            color:rgb(255, 251, 0);
+        }
+        .element_1 {
+            margin-bottom: 10px;
+        }
+        .element_2 {
+            margin-bottom: 60px;
+        }
+        .pet-list {
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            text-align: center;
+        }
+        .pet-item {
+            border: 1px 200px;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 5px;
+            text-align: center;
+        }
+        .buttons {
+            margin-top: 5px;
+        }
+        .buttons button {
+            display: block;
+            width: 50%;
+            margin: 5px 200px;
+            padding: 10px;
+            background-color:rgb(112, 41, 245);
+            color: rgb(255, 251, 0);
+            border: none;
+            border-radius: 5px;
+        }
+        .button {
+            background-color:rgb(112, 41, 245);
+            color: rgb(255, 251, 0);
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class=".form-container">
+            <a class="navbar-brand" th:href="@{/index}"> ВИРТУАЛЬНЫЙ ПОМОЩНИК ВОЛОНТЕРА </a>
+        </div>
+    </nav>
+    <div class="element_1"></div>
+    <div class="form-container">
+        <h2>{{ shelter.name }}</h2>
+        <div class="buttons">
+            <button onclick="window.location.href='{% url 'shelter_list' %}'">
+                    Вернуться к списку приютов
+            </button>
+            <button onclick="window.location.href='{% url 'create_pet' shelter.id %}'">
+                    Добавить питомца
+            </button>
+            <div class="element_2"></div>
+        </div>
+        <div class="pet-list">
+            {% for pet in pets %}
+                <div class="pet-item">
+                    <h3>{{ pet.name }}</h3>
+                    {% if pet.photo %}
+                        <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" style="max-width: 400px;">
+                    {% endif %}
+                    <div class="element_1"></div>
+                    <div>
+                        <button class="button"
+                                onclick="window.location.href='{% url 'edit_pet' pet.id %}'">
+                                Изменить
+                        </button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

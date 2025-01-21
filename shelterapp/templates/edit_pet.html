@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Изменить питомца</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const familySelect = document.getElementById('id_family');
+            const breedSelect = document.getElementById('id_breed');
+
+            const breedChoices = {
+                'Кошки': [
+                    ['Сиамская', 'Сиамская'],
+                    ['Мейн-кун', 'Мейн-кун'],
+                    ['Сфинкс', 'Сфинкс'],
+                ],
+                'Собаки': [
+                    ['Немецкая овчарка', 'Немецкая овчарка'],
+                    ['Такса', 'Такса'],
+                    ['Французский бульдог', 'Французский бульдог'],
+                ],
+                'Грызуны': [
+                    ['Хомяк', 'Хомяк'],
+                    ['Крыса', 'Крыса'],
+                    ['Морская свинка', 'Морская свинка'],
+                ],
+                'Птицы': [
+                    ['Попугай', 'Попугай'],
+                    ['Канарейка', 'Канарейка'],
+                    ['Волнистый попугайчик', 'Волнистый попугайчик'],
+                ],
+                'Рептилии': [
+                    ['Игуана', 'Игуана'],
+                    ['Удав', 'Удав'],
+                    ['Черепаха', 'Черепаха'],
+                ],
+                'Другое': [
+                    ['Другое', 'Другое'],
+                ],
+            };
+
+            function updateBreedChoices() {
+                const selectedFamily = familySelect.value;
+                breedSelect.innerHTML = '';
+                breedChoices[selectedFamily].forEach(function(choice) {
+                    const option = document.createElement('option');
+                    option.value = choice[0];
+                    option.textContent = choice[1];
+                    breedSelect.appendChild(option);
+                });
+            }
+
+            familySelect.addEventListener('change', updateBreedChoices);
+            updateBreedChoices();
+        });
+    </script>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Изменить питомца</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-primary">Сохранить</button>
+        </form>
+    </div>
+</body>
+</html>

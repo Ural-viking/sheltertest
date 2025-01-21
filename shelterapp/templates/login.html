@@ -1,15 +1,92 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>АВТОРИЗАЦИЯ</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .navbar-custom {
+            background-color:rgb(112, 41, 245);
+        }
+        .navbar-custom .navbar-brand {
+            color:rgb(255, 251, 0);
+        }
+        .element_1 {
+            margin-bottom: 10px;
+        }
+        .element_2 {
+            margin-bottom: 60px;
+        }
+        .element_3 {
+            margin-bottom: 30px;
+        }
+        .button {
+            background-color:rgb(112, 41, 245);
+            color: rgb(255, 251, 0);
+            border: none;
+            border-radius: 5px;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 5px;
+            text-align: center;
+        }
+        .form-container .errorlist {
+            color: red;
+            text-align: left;
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .form-container .errorlist li {
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
 <body>
-    <h2>Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
-    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class=".form-container">
+            <a class="navbar-brand" th:href="@{/index}"> ВИРТУАЛЬНЫЙ ПОМОЩНИК ВОЛОНТЕРА </a>
+        </div>
+    </nav>
+    <div class="element_1"></div>
+    <div class="form-container">
+        <h2>Вход</h2>
+        <form method="post"
+                style="text-align: center;">
+            {% csrf_token %}
+            {% if form.errors %}
+                <ul class="errorlist">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <label for="id_username">{{ form.username.label }}</label>
+            <div>{{ form.username }}</div>
+            <label for="id_password">{{ form.password.label }}</label>
+            <div>{{ form.password }}</div>
+            <div class="element_3"></div>
+            <button class="button"
+                    type="submit">
+                    Войти
+            </button>
+        </form>
+        <div class="element_2"></div>
+        <p>Вы не зарегистрированы?</p>
+        <button class="button"
+                onclick="window.location.href='{% url 'register' %}'">
+                Зарегистрироваться
+        </button>
+    </div>
 </body>
 </html>
