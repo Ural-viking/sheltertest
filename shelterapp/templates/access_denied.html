@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Доступ запрещен</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .navbar-custom {
+            background-color:rgb(112, 41, 245);
+        }
+        .navbar-custom .navbar-brand {
+            color:rgb(255, 251, 0);
+        }
+        .element_1 {
+            margin-bottom: 10px;
+        }
+        .element_2 {
+            margin-bottom: 60px;
+        }
+        .pet-list {
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            text-align: center;
+        }
+        .pet-item {
+            border: 1px 200px;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 5px;
+            text-align: center;
+        }
+        .button {
+            background-color:rgb(112, 41, 245);
+            color: rgb(255, 251, 0);
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            padding: 10px;
+        }
+        .access-denied {
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class=".form-container">
+            <a class="navbar-brand"
+                th:href="@{/index}">
+                ВИРТУАЛЬНЫЙ ПОМОЩНИК ВОЛОНТЕРА
+            </a>
+        </div>
+    </nav>
+    <div class="element_1"></div>
+    <div class="form-container">
+        <div class="access-denied">
+            <h2>Доступ запрещен</h2>
+            <p>У вас нет прав доступа к этой странице.</p>
+            <button class="button"
+                    onclick="window.location.href='{% url 'shelter_list' %}'">
+                    Вернуться к списку приютов
+            </button>
+        </div>
+    </div>
+</body>
+</html>

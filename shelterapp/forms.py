@@ -45,6 +45,26 @@ class ShelterForm(forms.ModelForm):
     class Meta:
         model = Shelter
         fields = ['name', 'address', 'description', 'photo']
+        labels = {
+            'name': _('Название'),
+            'address': _('Адрес'),
+            'description': _('Описание'),
+            'photo': _('Фото'),
+        }
+        help_texts = {
+            'name': _('Введите название приюта.'),
+            'address': _('Введите адрес приюта.'),
+            'description': _('Введите описание приюта.'),
+            'photo': _('Загрузите фото приюта.'),
+        }
+        error_messages = {
+            'name': {
+                'required': _("Это поле обязательно."),
+            },
+            'address': {
+                'required': _("Это поле обязательно."),
+            },
+        }
         
 class CustomPasswordResetForm(PasswordResetForm):
     email = forms.EmailField(label='Email', max_length=254)

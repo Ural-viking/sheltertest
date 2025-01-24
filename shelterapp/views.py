@@ -64,25 +64,35 @@ def create_shelter(request):
     return render(request, 'create_shelter.html', {'form': form})
 
 @login_required
+def shelter_detail(request, shelter_id):
+    shelter = get_object_or_404(Shelter, id=shelter_id)
+    if not request.user.is_superuser and not UserShelter.objects.filter(shelter=shelter, user=request.user).exists():
+        return render(request, 'access_denied.html')
+    return render(request, 'shelter_detail.html', {'shelter': shelter})
+
+@login_required
 def edit_shelter(request, shelter_id):
-    user_shelter = get_object_or_404(UserShelter, shelter_id=shelter_id, user=request.user)
-    shelter = user_shelter.shelter
+    shelter = get_object_or_404(Shelter, id=shelter_id)
+    if not request.user.is_superuser and not UserShelter.objects.filter(shelter=shelter, user=request.user).exists():
+        return render(request, 'access_denied.html')
     if request.method == 'POST':
         form = ShelterForm(request.POST, request.FILES, instance=shelter)
         if form.is_valid():
             form.save()
-            return redirect('shelter_list')
+            return redirect('shelter_detail', shelter_id=shelter.id)
     else:
         form = ShelterForm(instance=shelter)
     return render(request, 'edit_shelter.html', {'form': form})
 
 @login_required
 def delete_shelter(request, shelter_id):
-    user_shelter = get_object_or_404(UserShelter, shelter_id=shelter_id, user=request.user)
+    shelter = get_object_or_404(Shelter, id=shelter_id)
+    if not request.user.is_superuser and not UserShelter.objects.filter(shelter=shelter, user=request.user).exists():
+        return render(request, 'access_denied.html')
     if request.method == 'POST':
-        user_shelter.delete()
+        shelter.delete()
         return redirect('shelter_list')
-    return render(request, 'delete_shelter.html', {'shelter': user_shelter.shelter})
+    return render(request, 'delete_shelter.html', {'shelter': shelter})
 
 class CustomPasswordResetView(PasswordResetView):
     form_class = CustomPasswordResetForm
@@ -103,13 +113,7 @@ def join_shelter(request, shelter_id):
     shelter = get_object_or_404(Shelter, id=shelter_id)
     if not UserShelter.objects.filter(user=request.user, shelter=shelter).exists():
         UserShelter.objects.create(user=request.user, shelter=shelter)
-    return redirect('shelter_list')
-
-@login_required
-def shelter_detail(request, shelter_id):
-    shelter = get_object_or_404(Shelter, id=shelter_id)
-    pets = Pet.objects.filter(shelter=shelter)
-    return render(request, 'shelter_detail.html', {'shelter': shelter, 'pets': pets})
+    return redirect('shelter_detail', shelter_id=shelter.id)
 
 @login_required
 def create_pet(request, shelter_id):
@@ -136,3 +140,6 @@ def edit_pet(request, pet_id):
     else:
         form = PetForm(instance=pet)
     return render(request, 'edit_pet.html', {'form': form, 'pet': pet})
+
+def access_denied(request):
+    return render(request, 'access_denied.html')

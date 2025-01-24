@@ -1,28 +1,90 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мои приюты</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .navbar-custom {
+            background-color:rgb(112, 41, 245);
+        }
+        .navbar-custom .navbar-brand {
+            color:rgb(255, 251, 0);
+        }
+        .element_1 {
+            margin-bottom: 10px;
+        }
+        .element_2 {
+            margin-bottom: 60px;
+        }
+        .element_3 {
+            margin-bottom: 30px;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 5px;
+            text-align: center;
+        }
+        .button {
+            background-color:rgb(112, 41, 245);
+            color: rgb(255, 251, 0);
+            border: none;
+            border-radius: 5px;
+        }
+        ul {
+            list-style-type: none;
+        }
+    </style>
 </head>
 <body>
-    <h2>Мои приюты</h2>
-    <button onclick="window.location.href='{% url 'create_shelter' %}'">Создать новый приют</button>
-    <button onclick="window.location.href='{% url 'search_shelters' %}'">Поиск приютов</button>
-    <ul>
-        {% for shelter in shelters %}
-            <li>
-                <h3><a href="{% url 'shelter_detail' shelter.id %}">{{ shelter.name }}</a></h3>
-                <p>{{ shelter.address }}</p>
-                <p>{{ shelter.description }}</p>
-                {% if shelter.photo %}
-                    <img src="{{ shelter.photo.url }}" alt="{{ shelter.name }}" style="max-width: 200px;">
-                {% endif %}
-                <div class="buttons">
-                    <button onclick="window.location.href='{% url 'edit_shelter' shelter.id %}'">Изменить</button>
-                    <button onclick="window.location.href='{% url 'delete_shelter' shelter.id %}'">Удалить</button>
-                </div>
-            </li>
-        {% endfor %}
-    </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class=".form-container">
+            <a class="navbar-brand" th:href="@{/index}"> ВИРТУАЛЬНЫЙ ПОМОЩНИК ВОЛОНТЕРА </a>
+        </div>
+    </nav>
+    <div class="element_1"></div>
+    <div class="form-container">
+        <h2>Мои приюты</h2>
+        <div class="buttons">
+            <button class="button"
+                    onclick="window.location.href='{% url 'create_shelter' %}'">
+                    Создать новый приют
+            </button>
+            <button class="button"
+                    onclick="window.location.href='{% url 'search_shelters' %}'">
+                    Поиск приютов
+            </button>
+        </div>
+        <div class="element_3"></div>
+        <ul>
+            {% for shelter in shelters %}
+                <li>
+                    <h3><a href="{% url 'shelter_detail' shelter.id %}">{{ shelter.name }}</a></h3>
+                    <p>{{ shelter.address }}</p>
+                    <p>{{ shelter.description }}</p>
+                    {% if shelter.photo %}
+                        <img src="{{ shelter.photo.url }}"
+                            alt="{{ shelter.name }}"
+                            style="max-width: 200px;">
+                        <div class="element_1"></div>
+                    {% endif %}
+                    <div class="buttons">
+                        <button class="button"
+                                onclick="window.location.href='{% url 'edit_shelter' shelter.id %}'">
+                                Изменить
+                        </button>
+                        <button class="button"
+                                onclick="window.location.href='{% url 'delete_shelter' shelter.id %}'">
+                                Удалить
+                        </button>
+                    </div>
+                </li>
+                <div class="element_3"></div>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>
 

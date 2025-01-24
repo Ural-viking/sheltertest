@@ -37,3 +37,15 @@ msgstr "Пожалуйста, введите правильное имя пол�
 #: forms.py:21
 msgid "This account is inactive."
 msgstr "Этот аккаунт отключен."
+
+#: forms.py:22
+msgid "This field is required."
+msgstr "Это поле обязательно."
+
+#: forms.py:23
+msgid "Enter a valid value."
+msgstr "Введите корректное значение."
+
+#: forms.py:24
+msgid "Ensure this value has at least %(limit_value)d characters (it has %(show_value)d)."
+msgstr "Убедитесь, что это значение содержит не менее %(limit_value)d символов (оно содержит %(show_value)d)."
