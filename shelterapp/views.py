@@ -118,6 +118,8 @@ def join_shelter(request, shelter_id):
 @login_required
 def create_pet(request, shelter_id):
     shelter = get_object_or_404(Shelter, id=shelter_id)
+    if not request.user.is_superuser and not UserShelter.objects.filter(shelter=shelter, user=request.user).exists():
+        return render(request, 'access_denied.html')
     if request.method == 'POST':
         form = PetForm(request.POST, request.FILES)
         if form.is_valid():
@@ -127,19 +129,21 @@ def create_pet(request, shelter_id):
             return redirect('shelter_detail', shelter_id=shelter.id)
     else:
         form = PetForm()
-    return render(request, 'create_pet.html', {'form': form, 'shelter': shelter})
+    return render(request, 'create_pet.html', {'form': form})
 
 @login_required
 def edit_pet(request, pet_id):
     pet = get_object_or_404(Pet, id=pet_id)
+    if not request.user.is_superuser and not UserShelter.objects.filter(shelter=pet.shelter, user=request.user).exists():
+        return render(request, 'access_denied.html')
     if request.method == 'POST':
-        form = PetForm(request.POST, request.FILES, instance=pet)
+        form = PetForm(request.POST, instance=pet)
         if form.is_valid():
             form.save()
             return redirect('shelter_detail', shelter_id=pet.shelter.id)
     else:
         form = PetForm(instance=pet)
-    return render(request, 'edit_pet.html', {'form': form, 'pet': pet})
+    return render(request, 'edit_pet.html', {'form': form})
 
 def access_denied(request):
     return render(request, 'access_denied.html')
