@@ -73,19 +73,26 @@ class PetForm(forms.ModelForm):
     class Meta:
         model = Pet
         fields = ['name', 'category', 'family', 'breed', 'gender', 'size', 'arrival_date', 'photo']
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        widgets = {
+            'arrival_date': forms.DateInput(attrs={'type': 'date'}),
+        }
+        
+    def __init2__(self, *args, **kwargs):
+        super(PetForm, self).__init__(*args, **kwargs)
+        self.fields['family'].widget = forms.Select()
         if 'category' in self.data:
             category = self.data.get('category')
-            families = Pet.DOMESTIC_FAMILY_CHOICES if category == 'Домашнее' else Pet.WILD_FAMILY_CHOICES
-            self.fields['family'].choices = families
-            if 'family' in self.data:
-                family = self.data.get('family')
-                breeds = Pet.BREED_CHOICES.get(family, [])
-                self.fields['breed'].choices = breeds
+            self.fields['family'].choices = Pet.FAMILY_CHOICES.get(category, [])
         elif self.instance.pk:
-            families = Pet.DOMESTIC_FAMILY_CHOICES if self.instance.category == 'Домашнее' else Pet.WILD_FAMILY_CHOICES
-            self.fields['family'].choices = families
-            breeds = Pet.BREED_CHOICES.get(self.instance.family, [])
-            self.fields['breed'].choices = breeds
+            category = self.instance.category
+            self.fields['category'].choices = Pet.FAMILY_CHOICES.get(category, [])
+    
+    def __init__(self, *args, **kwargs):
+        super(PetForm, self).__init__(*args, **kwargs)
+        self.fields['breed'].widget = forms.Select()
+        if 'family' in self.data:
+            family = self.data.get('family')
+            self.fields['breed'].choices = Pet.BREED_CHOICES.get(family, [])
+        elif self.instance.pk:
+            family = self.instance.family
+            self.fields['breed'].choices = Pet.BREED_CHOICES.get(family, [])

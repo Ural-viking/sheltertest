@@ -23,28 +23,27 @@ class Pet(models.Model):
         ('Домашнее', 'Домашнее'),
         ('Дикое', 'Дикое'),
     ]
-
-    DOMESTIC_FAMILY_CHOICES = [
-        ('Кошки', 'Кошки'),
-        ('Собаки', 'Собаки'),
-        ('Парнокопытные', 'Парнокопытные'),
-        ('Непарнокопытные', 'Непарнокопытные'),
-        ('Фретка', 'Фретка'),
-        ('Кролик', 'Кролик'),
-        ('Грызуны', 'Грызуны'),
-        ('Птицы', 'Птицы'),
-    ]
-    WILD_FAMILY_CHOICES = [
-        ('Псовые', 'Псовые'),
-        ('Медвежьи', 'Медвежьи'),
-    ]
-
+    
+    FAMILY_CHOICES = {
+        'Домашнее': [
+            ('Кошки', 'Кошки'),
+            ('Собаки', 'Собаки'),
+            ('Грызуны', 'Грызуны'),
+            ('Птицы', 'Птицы'),
+        ],
+        'Дикое': [
+            ('Рептилии', 'Рептилии'),
+            ('Другое', 'Другое'),
+        ],
+    }
+    
     BREED_CHOICES = {
         'Кошки': [
             ('Сиамская', 'Сиамская'),
             ('Мейн-кун', 'Мейн-кун'),
             ('Сфинкс', 'Сфинкс'),
         ],
+        
         'Собаки': [
             ('Австралийская овчарка','Австралийская овчарка'),
             ('Австралийская пастушья собака','Австралийская пастушья собака'),
@@ -233,20 +232,7 @@ class Pet(models.Model):
             ('Японский хин','Японский хин'),
             ('Японский шпиц','Японский шпиц'),
         ],
-        'Парнокопытные': [
-            ('Корова', 'Корова'),
-            ('Свинья', 'Свинья'),
-        ],
-        'Непарнокопытные': [
-            ('Лошадь', 'Лошадь'),
-        ],
-        'Фретка': [
-            ('Фретка', 'Фретка'),
-        ],
-        'Кролик': [
-            ('Лопоухий кролик', 'Лопоухий кролик'),
-            ('Карликовый кролик', 'Карликовый кролик'),
-        ],
+        
         'Грызуны': [
             ('Хомяк', 'Хомяк'),
             ('Крыса', 'Крыса'),
@@ -257,16 +243,16 @@ class Pet(models.Model):
             ('Канарейка', 'Канарейка'),
             ('Волнистый попугайчик', 'Волнистый попугайчик'),
         ],
-        'Псовые': [
-            ('Волк', 'Волк'),
-            ('Лиса', 'Лиса'),
+        'Рептилии': [
+            ('Игуана', 'Игуана'),
+            ('Удав', 'Удав'),
+            ('Черепаха', 'Черепаха'),
         ],
-        'Медвежьи': [
-            ('Бурый медведь', 'Бурый медведь'),
-            ('Белый медведь', 'Белый медведь'),
+        'Другое': [
+            ('Другое', 'Другое'),
         ],
     }
-
+    
     SIZE_CHOICES = [
         ('Крупный', 'Крупный'),
         ('Средний', 'Средний'),
@@ -277,16 +263,16 @@ class Pet(models.Model):
         ('Мужской','Мужской'),
         ('Женский','Женский'),
     ]
-
+    
     shelter = models.ForeignKey(Shelter, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    category = models.CharField(max_length=10, choices=CATEGORY_CHOICES)
-    family = models.CharField(max_length=50, choices=DOMESTIC_FAMILY_CHOICES + WILD_FAMILY_CHOICES)
-    breed = models.CharField(max_length=50, choices=[(k, k) for breeds in BREED_CHOICES.values() for k, v in breeds])
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
+    family = models.CharField(max_length=50, choices=FAMILY_CHOICES)
+    breed = models.CharField(max_length=255, choices=BREED_CHOICES)
     gender = models.CharField(max_length=50,choices=GENDER_CHOICES)
     size = models.CharField(max_length=50, choices=SIZE_CHOICES)
     arrival_date = models.DateField()
     photo = models.ImageField(upload_to='pet_photos/', blank=True, null=True)
-
+    
     def __str__(self):
         return self.name
