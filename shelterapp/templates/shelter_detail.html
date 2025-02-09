@@ -8,9 +8,15 @@
     <style>
         .navbar-custom {
             background-color:rgb(112, 41, 245);
+            display: flex;
+            justify-content: space-between;
         }
         .navbar-custom .navbar-brand {
             color:rgb(255, 251, 0);
+        }
+        .logout-button {
+            font-size:  14px;
+            margin-left: auto;
         }
         .element_1 {
             margin-bottom: 10px;
@@ -31,7 +37,7 @@
             margin-bottom: 10px;
         }
         .form-container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 5px;
             text-align: center;
@@ -55,12 +61,24 @@
             border: none;
             border-radius: 5px;
         }
+        
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
         <div class=".form-container">
-            <a class="navbar-brand" th:href="@{/index}"> ВИРТУАЛЬНЫЙ ПОМОЩНИК ВОЛОНТЕРА </a>
+            <a class="navbar-brand"
+                th:href="@{/index}">
+                ВИРТУАЛЬНЫЙ ПОМОЩНИК ВОЛОНТЕРА
+            </a>
+            <div>
+                {% if user.is_authenticated %}
+                    <a class="navbar-brand logout-button"
+                        href="{% url 'logout' %}">
+                        Выйти
+                    </a>
+                {% endif %}
+            </div>
         </div>
     </nav>
     <div class="element_1"></div>
@@ -84,6 +102,10 @@
                     {% endif %}
                     <div class="element_1"></div>
                     <div>
+                        <button class="button"
+                                onclick="window.location.href='{% url 'pet_detail' pet.id %}'">
+                                Просмотреть
+                        </button>
                         <button class="button"
                                 onclick="window.location.href='{% url 'edit_pet' pet.id %}'">
                                 Изменить

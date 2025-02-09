@@ -8,9 +8,15 @@
         <style>
             .navbar-custom {
                 background-color:rgb(112, 41, 245);
+                display: flex;
+                justify-content: space-between;
             }
             .navbar-custom .navbar-brand {
                 color:rgb(255, 251, 0);
+            }
+            .logout-button {
+                font-size:  14px;
+                margin-left: auto;
             }
             .element_1 {
                 margin-bottom: 10px;
@@ -106,6 +112,14 @@
                     th:href="@{/index}">
                     ВИРТУАЛЬНЫЙ ПОМОЩНИК ВОЛОНТЕРА
                 </a>
+                <div>
+                    {% if user.is_authenticated %}
+                        <a class="navbar-brand logout-button"
+                            href="{% url 'logout' %}">
+                            Выйти
+                        </a>
+                    {% endif %}
+                </div>
             </div>
         </nav>
         <div class="form-container">

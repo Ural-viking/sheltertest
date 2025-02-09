@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm
-from .models import Shelter, Pet
+from .models import Shelter, Pet, VetAssignment, PetVetAssignment
 from django.utils.translation import gettext_lazy as _
 
 
@@ -69,6 +69,19 @@ class ShelterForm(forms.ModelForm):
 class CustomPasswordResetForm(PasswordResetForm):
     email = forms.EmailField(label='Email', max_length=254)
 
+class VetAssignmentForm(forms.ModelForm):
+    class Meta:
+        model = VetAssignment
+        fields = ['diagnosis', 'medication', 'dosage', 'frequency', 'duration', 'document']
+        labels = {
+            'diagnosis':_('Диагноз'),
+            'medication':_('Необходимые лекарства'),
+            'dosage':_('Дозировка в граммах'),
+            'frequency':_('Сколько раз в день'),
+            'duration':_('Продолжительность лечения'),
+            'document':_('Документ'),
+        }
+
 class PetForm(forms.ModelForm):
     class Meta:
         model = Pet
@@ -76,23 +89,65 @@ class PetForm(forms.ModelForm):
         widgets = {
             'arrival_date': forms.DateInput(attrs={'type': 'date'}),
         }
+        labels = {
+            'name': 'Кличка',
+            'category': 'Категория',
+            'family': 'Класс или семейство',
+            'breed': 'Порода',
+            'gender': 'Пол',
+            'size': 'Размер',
+            'arrival_date': 'Дата появления в приюте',
+            'photo': 'Фото питомца',
+            
+        }
+        error_messages = {
+            'name': {
+                'required':_("Это поле обязательно"),
+            },
+            'category': {
+                'required':_("Это поле обязательно"),
+            },
+            'family': {
+                'required': 'Это поле обязательно.',
+            },
+            'breed': {
+                'required': 'Это поле обязательно.',
+            },
+            'gender': {
+                'required': 'Это поле обязательно.',
+            },
+            'size': {
+                'required': 'Это поле обязательно.',
+            },
+            'arrival_date': {
+                'required': 'Это поле обязательно.',
+            },
+            'photo': {
+                'required': 'Это поле обязательно.',
+            },
+        }
         
-    def __init2__(self, *args, **kwargs):
+    
+    def __init__(self, *args, **kwargs):
         super(PetForm, self).__init__(*args, **kwargs)
         self.fields['family'].widget = forms.Select()
+        self.fields['breed'].widget = forms.Select()
+        
         if 'category' in self.data:
             category = self.data.get('category')
             self.fields['family'].choices = Pet.FAMILY_CHOICES.get(category, [])
         elif self.instance.pk:
             category = self.instance.category
-            self.fields['category'].choices = Pet.FAMILY_CHOICES.get(category, [])
-    
-    def __init__(self, *args, **kwargs):
-        super(PetForm, self).__init__(*args, **kwargs)
-        self.fields['breed'].widget = forms.Select()
+            self.fields['family'].choices = Pet.FAMILY_CHOICES.get(category, [])
+        
         if 'family' in self.data:
             family = self.data.get('family')
             self.fields['breed'].choices = Pet.BREED_CHOICES.get(family, [])
         elif self.instance.pk:
             family = self.instance.family
             self.fields['breed'].choices = Pet.BREED_CHOICES.get(family, [])
+
+class PetVetAssignmentForm(forms.ModelForm):
+    class Meta:
+        model = PetVetAssignment
+        fields = ['pet', 'vet_assignment']

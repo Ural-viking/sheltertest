@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактировать назначение ветеринара</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+        .form-container input, .form-container textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: rgb(112, 41, 245);
+            color: rgb(255, 251, 0);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: rgb(90, 30, 200);
+        }
+        .back-button {
+            background-color: rgb(255, 251, 0);
+            color: rgb(112, 41, 245);
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .back-button:hover {
+            background-color: rgb(230, 230, 0);
+        }
+        .assignment-list {
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Детали назначения ветеринара</h2>
+        <div class="assignment-details">
+            <p><strong>Диагноз:</strong> {{ assignment.vet_assignment.diagnosis }}</p>
+            <p><strong>Медикаменты:</strong> {{ assignment.vet_assignment.medication }}</p>
+            <p><strong>Дозировка:</strong> {{ assignment.vet_assignment.dosage }}</p>
+            <p><strong>Частота:</strong> {{ assignment.vet_assignment.frequency }}</p>
+            <p><strong>Продолжительность:</strong> {{ assignment.vet_assignment.duration }}</p>
+            {% if assignment.vet_assignment.document %}
+                <p><strong>Документ:</strong> <a href="{{ assignment.vet_assignment.document.url }}" download>Скачать документ</a></p>
+            {% endif %}
+        </div>
+        <button class="back-button" onclick="window.location.href='{% url 'pet_detail' assignment.pet.id %}'">Вернуться к питомцу</button>
+    </div>
+</body>
+</html>

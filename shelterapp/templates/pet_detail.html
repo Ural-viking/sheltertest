@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ pet.name }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .navbar-custom {
+            background-color:rgb(112, 41, 245);
+            display: flex;
+            justify-content: space-between;
+        }
+        .navbar-custom .navbar-brand {
+            color:rgb(255, 251, 0);
+        }
+        .logout-button {
+            font-size:  14px;
+            margin-left: auto;
+        }
+        .element_1 {
+            margin-bottom: 10px;
+        }
+        .element_2 {
+            margin-bottom: 60px;
+        }
+        .element_3 {
+            margin-bottom: 30px;
+        }
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        .buttons button {
+            display: inline-block;
+            width: 45%;
+            margin: 5px 2.5%;
+            padding: 10px;
+            background-color: rgb(112, 41, 245);
+            color: rgb(255, 251, 0);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button {
+            background-color: rgb(112, 41, 245);
+            color: rgb(255, 251, 0);
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .assignment-list {
+            margin: 0 auto;
+            margin-top: 20px;
+            max-height: 400px;
+            max-width: 500px;
+            overflow-y: auto;
+            text-align: center;
+            border: 2px solid rgb(112, 41, 245);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class=".form-container">
+            <a class="navbar-brand"
+                th:href="@{/index}">
+                ВИРТУАЛЬНЫЙ ПОМОЩНИК ВОЛОНТЕРА
+            </a>
+            <div>
+                {% if user.is_authenticated %}
+                    <a class="navbar-brand logout-button"
+                        href="{% url 'logout' %}">
+                        Выйти
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <div class="element_1"></div>
+    <div class="form-container">
+        <h2>{{ pet.name }}</h2>
+        <div class="pet-details">
+            <p><strong>Категория:</strong> {{ pet.category }}</p>
+            <p><strong>Класс или семейство:</strong> {{ pet.family }}</p>
+            <p><strong>Порода:</strong> {{ pet.breed }}</p>
+            <p><strong>Пол:</strong> {{ pet.gender }}</p>
+            <p><strong>Размер:</strong> {{ pet.size }}</p>
+            <p><strong>Дата появления:</strong> {{ pet.arrival_date }}</p>
+            {% if pet.photo %}
+                <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" style="max-width: 400px;">
+            {% endif %}
+            <div class="element_3"></div>
+            <h3>Назначения ветеринара</h3>
+            <div>
+                {% for assignment in pet.vet_assignments.all %}
+                    <div class="assignment-list">
+                        <p><strong>Диагноз:</strong> {{assignment.diagnosis }} </p>
+                        <p><strong>Лекарство:</strong> {{assignment.medication}} </p>
+                        <p><strong>Дозировка(гр):</strong> {{assignment.dosage}} </p>
+                        <p><strong>Сколько раз в день:</strong> {{assignment.frequency}} </p>
+                        <p><strong>Продолжительность курса:</strong> {{assignment.duration}} </p>
+                        <p><strong>Документ (рецепт):</strong> {{assignment.document}}</p>
+                        <button class="button"
+                                onclick="window.location.href='{% url 'edit_vet_assignment' pet.id assignment.id %}'">
+                                Редактировать
+                        </button>
+                        <div class="element_1"></div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="element_3"></div>
+        <button class="button"
+                onclick="window.location.href='{% url 'add_vet_assignment' pet.id %}'">
+                Добавить назначение
+        </button>
+        <div class="buttons">
+            <button onclick="window.location.href='{% url 'shelter_detail' pet.shelter.id %}'">Вернуться к приюту</button>
+        </div>
+    </div>
+</body>
+</html>

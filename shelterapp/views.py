@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import RegisterForm, LoginForm, ShelterForm, CustomPasswordResetForm, PetForm
+from .forms import RegisterForm, LoginForm, ShelterForm, CustomPasswordResetForm, PetForm, VetAssignmentForm, PetVetAssignmentForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import PasswordResetView
 from django.urls import reverse_lazy
-from .models import Shelter, UserShelter, Pet
+from .models import Shelter, UserShelter, Pet, VetAssignment, PetVetAssignment
 
 def register(request):
     if request.method == 'POST':
@@ -27,6 +27,10 @@ def user_login(request):
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
+
+def user_logout(request):
+    logout(request)
+    return redirect('login')
 
 # @login_required
 # def shelter_list(request):
@@ -68,7 +72,9 @@ def shelter_detail(request, shelter_id):
     shelter = get_object_or_404(Shelter, id=shelter_id)
     if not request.user.is_superuser and not UserShelter.objects.filter(shelter=shelter, user=request.user).exists():
         return render(request, 'access_denied.html')
-    return render(request, 'shelter_detail.html', {'shelter': shelter})
+    else:
+        pets = Pet.objects.filter(shelter=shelter)
+    return render(request, 'shelter_detail.html', {'shelter': shelter, 'pets': pets})
 
 @login_required
 def edit_shelter(request, shelter_id):
@@ -135,11 +141,50 @@ def edit_pet(request, pet_id):
     if request.method == 'POST':
         form = PetForm(request.POST, request.FILES, instance=pet)
         if form.is_valid():
+            print(form.cleaned_data)
             form.save()
             return redirect('shelter_detail', shelter_id=pet.shelter.id)
     else:
         form = PetForm(instance=pet)
     return render(request, 'edit_pet.html', {'form': form, 'pet': pet})
 
+@login_required
+def pet_detail(request, pet_id):
+    pet = get_object_or_404(Pet, id=pet_id)
+    return render(request, 'pet_detail.html', {'pet': pet})
+
 def access_denied(request):
     return render(request, 'access_denied.html')
+
+@login_required
+def add_vet_assignment(request, pet_id):
+    pet = get_object_or_404(Pet, id=pet_id)
+    if request.method == 'POST':
+        form = VetAssignmentForm(request.POST, request.FILES)
+        if form.is_valid():
+            vet_assignment = form.save()
+            PetVetAssignment.objects.create(pet=pet, vet_assignment=vet_assignment)
+            return redirect('pet_detail', pet_id=pet.id)
+    else:
+        form = VetAssignmentForm()
+    return render(request, 'add_vet_assignment.html', {'form': form, 'pet': pet})
+
+@login_required
+def edit_vet_assignment(request, pet_id, assignment_id):
+    pet = get_object_or_404(Pet, id=pet_id)
+    assignment = get_object_or_404(VetAssignment, id=assignment_id, petvetassignment__pet_id=pet_id)
+
+    if request.method == 'POST':
+        form = VetAssignmentForm(request.POST, instance=assignment)
+        if form.is_valid():
+            form.save()
+            return redirect('pet_detail', pet_id=pet.id)
+    else:
+        form = VetAssignmentForm(instance=assignment)
+
+    return render(request, 'edit_vet_assignment.html', {'form': form, 'pet': pet, 'assignment': assignment})
+
+@login_required
+def vet_assignment_detail(request, pet_id, assignment_id):
+    assignment = get_object_or_404(PetVetAssignment, id=assignment_id, pet_id=pet_id)
+    return render(request, 'vet_assignment_detail.html', {'assignment': assignment})
