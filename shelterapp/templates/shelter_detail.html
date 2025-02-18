@@ -4,8 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ shelter.name }}</title>
+    {% load static %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        @font-face {
+            font-family: 'Soyuz Grotesk';
+            src: url('{% static "fonts/SoyuzGroteskBold.otf" %}') format('opentype');
+            font-weight: bold;
+            font-style: normal;
+        }
+        body, h1, h2, h3, h4, h5, h6, p, a, button {
+            font-family: 'Soyuz Grotesk', sans-serif;
+        }
         .navbar-custom {
             background-color:rgb(112, 41, 245);
             display: flex;
@@ -14,7 +24,7 @@
         .navbar-custom .navbar-brand {
             color:rgb(255, 251, 0);
         }
-        .logout-button {
+        .navbar-button {
             font-size:  14px;
             margin-left: auto;
         }
@@ -23,12 +33,6 @@
         }
         .element_2 {
             margin-bottom: 60px;
-        }
-        .pet-list {
-            margin-top: 20px;
-            max-height: 400px;
-            overflow-y: auto;
-            text-align: center;
         }
         .pet-item {
             border: 1px 200px;
@@ -47,6 +51,8 @@
         }
         .buttons button {
             display: block;
+            left: 5%;
+            position: relative;
             width: 50%;
             margin: 5px 200px;
             padding: 10px;
@@ -58,10 +64,10 @@
         .button {
             background-color:rgb(112, 41, 245);
             color: rgb(255, 251, 0);
+            height: 40px;
             border: none;
             border-radius: 5px;
         }
-        
     </style>
 </head>
 <body>
@@ -73,7 +79,11 @@
             </a>
             <div>
                 {% if user.is_authenticated %}
-                    <a class="navbar-brand logout-button"
+                    <a class="navbar-brand navbar-button"
+                        href="{% url 'profile' %}">
+                        Личный кабинет
+                    </a>
+                    <a class="navbar-brand navbar-button"
                         href="{% url 'logout' %}">
                         Выйти
                     </a>
@@ -83,7 +93,7 @@
     </nav>
     <div class="element_1"></div>
     <div class="form-container">
-        <h2>{{ shelter.name }}</h2>
+        <h1>{{ shelter.name }}</h1>
         <div class="buttons">
             <button onclick="window.location.href='{% url 'shelter_list' %}'">
                     Вернуться к списку приютов
@@ -91,9 +101,25 @@
             <button onclick="window.location.href='{% url 'create_pet' shelter.id %}'">
                     Добавить питомца
             </button>
-            <div class="element_2"></div>
+            {% if request.user == shelter.user %}
+                <button onclick="window.location.href='{% url 'edit_shelter' shelter.id %}'">
+                    Изменить
+                </button>
+                <form action="{% url 'admin_delete_shelter' shelter.id %}" method="post" onsubmit="return confirm('Вы уверены, что хотите полностью удалить этот приют?');">
+                    {% csrf_token %}
+                    <button type="submit">Удалить приют полностью</button>
+                </form>
+            {% endif %}
         </div>
-        <div class="pet-list">
+        <div class="element_3"></div>
+        <h3>Поиск</h3>
+        <form method="get" action="{% url 'shelter_detail' shelter.id %}">
+            <input type="text" name="search" placeholder="Поиск..." value="{{ request.GET.search }}">
+            <button class="button" type="submit">Поиск</button>
+        </form>
+        <div class="element_2"></div>
+        <h1>НАШИ ПИТОМЦЫ</h1>
+        <div>
             {% for pet in pets %}
                 <div class="pet-item">
                     <h3>{{ pet.name }}</h3>

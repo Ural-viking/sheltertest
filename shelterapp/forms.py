@@ -4,7 +4,6 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, Pass
 from .models import Shelter, Pet, VetAssignment, PetVetAssignment
 from django.utils.translation import gettext_lazy as _
 
-
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
@@ -40,6 +39,11 @@ class LoginForm(AuthenticationForm):
         'invalid_login': _("Пожалуйста, введите правильное имя пользователя и пароль. Обратите внимание, что оба поля могут быть чувствительны к регистру."),
         'inactive': _("Этот аккаунт отключен."),
     }
+        
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email']
         
 class ShelterForm(forms.ModelForm):
     class Meta:

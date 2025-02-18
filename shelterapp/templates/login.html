@@ -4,8 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>АВТОРИЗАЦИЯ</title>
+    {% load static %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        @font-face {
+            font-family: 'Soyuz Grotesk';
+            src: url('{% static "fonts/SoyuzGroteskBold.otf" %}') format('opentype');
+            font-weight: bold;
+            font-style: normal;
+        }
+        body, h1, h2, h3, h4, h5, h6, p, a, button {
+            font-family: 'Soyuz Grotesk', sans-serif;
+        }
         .navbar-custom {
             background-color:rgb(112, 41, 245);
         }
@@ -24,6 +34,7 @@
         .button {
             background-color:rgb(112, 41, 245);
             color: rgb(255, 251, 0);
+            height: 40px;
             border: none;
             border-radius: 5px;
             position: absolute;
@@ -45,7 +56,37 @@
         .form-container .errorlist li {
             margin-bottom: 5px;
         }
+        .form-group {
+            left: 25%;
+            position: relative;
+            width: 50%;
+        }
+        .password-toggle {
+            cursor: pointer;
+            position: absolute;
+            top: 55%;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
+    <script>
+        document.getElementById('toggle-password').addEventListener('keydown', function(event) {
+            console.log('Key Down:', event.key);
+        });
+        document.getElementById('toggle-password').addEventListener('keypress', function(event) {
+            console.log('Key Press:', event.key);
+        });
+        document.getElementById('toggle-password').addEventListener('keyup', function(event) {
+            console.log('Key Up:', event.key);
+        });
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('id_password');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+        }
+    </script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
@@ -71,10 +112,15 @@
                     {% endfor %}
                 </ul>
             {% endif %}
-            <label for="id_username">{{ form.username.label }}</label>
-            <div>{{ form.username }}</div>
-            <label for="id_password">{{ form.password.label }}</label>
-            <div>{{ form.password }}</div>
+            <div class="form-group">
+                <label for="id_username">Имя пользователя</label>
+                <input type="text" class="form-control" id="id_username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="id_password">Пароль</label>
+                <input type="password" class="form-control" id="id_password" name="password" required>
+                <span class="password-toggle" id="toggle-password" tabindex="0" onclick="togglePasswordVisibility()">👁️</span>
+            </div>
             <div class="element_3"></div>
             <button class="button"
                     type="submit">
@@ -83,6 +129,7 @@
         </form>
         <div class="element_2"></div>
         <p>Вы не зарегистрированы?</p>
+        <div class="element_3"></div>
         <button class="button"
                 onclick="window.location.href='{% url 'register' %}'">
                 Зарегистрироваться

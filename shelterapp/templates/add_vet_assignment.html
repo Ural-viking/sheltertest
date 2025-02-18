@@ -4,13 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Добавить назначение ветеринара</title>
+    {% load static %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        @font-face {
+            font-family: 'Soyuz Grotesk';
+            src: url('{% static "fonts/SoyuzGroteskBold.otf" %}') format('opentype');
+            font-weight: bold;
+            font-style: normal;
+        }
+        body, h1, h2, h3, h4, h5, h6, p, a, button {
+            font-family: 'Soyuz Grotesk', sans-serif;
+        }
         .navbar-custom {
             background-color:rgb(112, 41, 245);
         }
         .navbar-custom .navbar-brand {
             color:rgb(255, 251, 0);
+        }
+        .navbar-button {
+            font-size:  14px;
+            margin-left: auto;
         }
         .element_1 {
             margin-bottom: 10px;
@@ -19,7 +33,7 @@
             margin-bottom: 60px;
         }
         .element_3 {
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         .form-container {
             max-width: 600px;
@@ -55,6 +69,26 @@
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class=".form-container">
+            <a class="navbar-brand"
+                th:href="@{/index}">
+                ВИРТУАЛЬНЫЙ ПОМОЩНИК ВОЛОНТЕРА
+            </a>
+            <div>
+                {% if user.is_authenticated %}
+                    <a class="navbar-brand navbar-button"
+                        href="{% url 'profile' %}">
+                        Личный кабинет
+                    </a>
+                    <a class="navbar-brand navbar-button"
+                        href="{% url 'logout' %}">
+                        Выйти
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
     <div class="form-container">
         <h2>Добавить назначение ветеринара</h2>
         <form method="post" enctype="multipart/form-data">
@@ -63,7 +97,7 @@
             <button type="submit">Добавить</button>
         </form>
         <div class="element_3"></div>
-        <button class="button" 
+        <button class="button"
                 onclick="window.location.href='{% url 'pet_detail' pet.id %}'">
                 Вернуться к питомцу
         </button>

@@ -11,12 +11,32 @@ class Shelter(models.Model):
     def __str__(self):
         return self.name
     
+class Role(models.Model):
+    ADMIN = 'Admin'
+    USER = 'User'
+    ROLE_CHOICES = [
+        (ADMIN, 'Admin'),
+        (USER, 'User'),
+    ]
+    name = models.CharField(max_length=50, choices=ROLE_CHOICES, unique=True)
+
+    def __str__(self):
+        return self.name
+    
 class UserShelter(models.Model):
         user = models.ForeignKey(User, on_delete=models.CASCADE)
         shelter = models.ForeignKey(Shelter, on_delete=models.CASCADE)
-        
         class Meta:
             unique_together = ('user', 'shelter')
+            
+class UserRole(models.Model):
+        user = models.ForeignKey(User, on_delete=models.CASCADE)
+        role = models.ForeignKey(Role, on_delete=models.CASCADE)
+        class Meta:
+            unique_together = ('user', 'role')
+
+        def __str__(self):
+            return f"{self.user.username} - {self.role.name}"
             
 class VetAssignment(models.Model):
     diagnosis = models.CharField(max_length=255, blank=True, null=True, verbose_name='Диагноз')
@@ -513,3 +533,15 @@ class PetVetAssignment(models.Model):
 
     class Meta:
         unique_together = ('pet', 'vet_assignment')
+        
+class JoinRequest(models.Model):
+    STATUS_CHOICES = [
+        ('В ожидании', 'В ожидании'),
+        ('Одобрен', 'Одобрен'),
+        ('Отклонен', 'Отклонен'),
+    ]
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    shelter = models.ForeignKey(Shelter, on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='В ожидании')
+    created_at = models.DateTimeField(auto_now_add=True)

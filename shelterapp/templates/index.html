@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная страница</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        @font-face {
+            font-family: 'Soyuz Grotesk';
+            src: url('{% static "fonts/SoyuzGroteskBold.otf" %}') format('opentype');
+            font-weight: bold;
+            font-style: normal;
+        }
+        body, h1, h2, h3, h4, h5, h6, p, a, button {
+            font-family: 'Soyuz Grotesk', sans-serif;
+        }
+        .element_1 {
+            margin-bottom: 10px;
+        }
+        .element_2 {
+            margin-bottom: 60px;
+        }
+        .element_3 {
+            margin-bottom: 30px;
+        }
+        .navbar-custom {
+            background-color: rgb(112, 41, 245);
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+        .navbar-custom .navbar-brand {
+            color: rgb(255, 251, 0);
+            font-size: 24px;
+        }
+        .navbar-custom a {
+            color: rgb(255, 251, 0);
+            margin: 0 15px;
+            text-decoration: none;
+        }
+        .navbar-custom a:hover {
+            text-decoration: underline;
+        }
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            
+            height: 80vh;
+            text-align: center;
+        }
+        .main-content h1 {
+            font-size: 36px;
+            color: rgb(112, 41, 245);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">ВИРТУАЛЬНЫЙ ПОМОЩНИК ВОЛОНТЕРА</a>
+            <div>
+                <a href="{% url 'login' %}">Войти</a>
+                <a href="{% url 'register' %}">Регистрация</a>
+            </div>
+        </div>
+    </nav>
+    <div class="element_3"></div>
+    <div class="main-content">
+        <h1>ВАШ ПОМОЩНИК В ДОБРЫХ ДЕЛАХ!</h1>
+        <span style = "color: rgb(112, 41, 245); font-size: 20px;"> Волонтерство стало проще </span>
+        <span style = "color: rgb(112, 41, 245); font-size: 20px;"> Найдите единомышленников и вместе достигайте добрых целей! </span>
+    </div>
+</body>
+</html>

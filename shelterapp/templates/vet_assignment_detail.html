@@ -4,8 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Редактировать назначение ветеринара</title>
+    {% load static %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        @font-face {
+            font-family: 'Soyuz Grotesk';
+            src: url('{% static "fonts/SoyuzGroteskBold.otf" %}') format('opentype');
+            font-weight: bold;
+            font-style: normal;
+        }
+        body, h1, h2, h3, h4, h5, h6, p, a, button {
+            font-family: 'Soyuz Grotesk', sans-serif;
+        }
         .form-container {
             max-width: 600px;
             margin: 0 auto;

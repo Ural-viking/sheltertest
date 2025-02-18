@@ -4,8 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Создать питомца</title>
+    {% load static %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        @font-face {
+            font-family: 'Soyuz Grotesk';
+            src: url('{% static "fonts/SoyuzGroteskBold.otf" %}') format('opentype');
+            font-weight: bold;
+            font-style: normal;
+        }
+        body, h1, h2, h3, h4, h5, h6, p, a, button {
+            font-family: 'Soyuz Grotesk', sans-serif;
+        }
         .navbar-custom {
             background-color:rgb(112, 41, 245);
             display: flex;
@@ -14,7 +24,7 @@
         .navbar-custom .navbar-brand {
             color:rgb(255, 251, 0);
         }
-        .logout-button {
+        .navbar-button {
             font-size:  14px;
             margin-left: auto;
         }
@@ -877,7 +887,11 @@
             </a>
             <div>
                 {% if user.is_authenticated %}
-                    <a class="navbar-brand logout-button"
+                    <a class="navbar-brand navbar-button"
+                        href="{% url 'profile' %}">
+                        Личный кабинет
+                    </a>
+                    <a class="navbar-brand navbar-button"
                         href="{% url 'logout' %}">
                         Выйти
                     </a>
