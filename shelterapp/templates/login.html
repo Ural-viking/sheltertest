@@ -70,6 +70,10 @@
             align-items: center;
             justify-content: center;
         }
+        .logo {
+            max-width: 150px;
+            height: auto;
+        }
     </style>
     <script>
         document.getElementById('toggle-password').addEventListener('keydown', function(event) {
@@ -90,6 +94,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <img class="logo" alt="Логотип" src="{% static 'images/logo.png' %}">
         <div class=".form-container">
             <a class="navbar-brand" th:href="@{/index}"> ВИРТУАЛЬНЫЙ ПОМОЩНИК ВОЛОНТЕРА </a>
         </div>
@@ -97,8 +102,7 @@
     <div class="element_1"></div>
     <div class="form-container">
         <h2>Вход</h2>
-        <form method="post"
-                style="text-align: center;">
+        <form method="post" style="text-align: center;">
             {% csrf_token %}
             {% if form.errors %}
                 <ul class="errorlist">
@@ -122,18 +126,12 @@
                 <span class="password-toggle" id="toggle-password" tabindex="0" onclick="togglePasswordVisibility()">👁️</span>
             </div>
             <div class="element_3"></div>
-            <button class="button"
-                    type="submit">
-                    Войти
-            </button>
+            <button class="button" type="submit"> Войти </button>
         </form>
         <div class="element_2"></div>
         <p>Вы не зарегистрированы?</p>
         <div class="element_3"></div>
-        <button class="button"
-                onclick="window.location.href='{% url 'register' %}'">
-                Зарегистрироваться
-        </button>
+        <button class="button" onclick="window.location.href='{% url 'register' %}'"> Зарегистрироваться </button>
     </div>
 </body>
 </html>

@@ -43,6 +43,10 @@
         .navbar-custom a:hover {
             text-decoration: underline;
         }
+        .logo {
+            max-width: 150px;
+            height: auto;
+        }
         .main-content {
             display: flex;
             flex-direction: column;
@@ -60,7 +64,8 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'index' %}">ВИРТУАЛЬНЫЙ ПОМОЩНИК ВОЛОНТЕРА</a>
+            <img class="logo" alt="Логотип" src="{% static 'images/logo.png' %}">
+            <a class="navbar-brand" href="{% url 'index' %}"> ВИРТУАЛЬНЫЙ ПОМОЩНИК ВОЛОНТЕРА </a>
             <div>
                 <a href="{% url 'login' %}">Войти</a>
                 <a href="{% url 'register' %}">Регистрация</a>

@@ -64,21 +64,20 @@
             text-align: center;
             margin-top: 50px;
         }
+        .logo {
+            max-width: 150px;
+            height: auto;
+        }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
         <div class=".form-container">
-            <a class="navbar-brand"
-                th:href="@{/index}">
-                ВИРТУАЛЬНЫЙ ПОМОЩНИК ВОЛОНТЕРА
-            </a>
+            <img class="logo" alt="Логотип" src="{% static 'images/logo.png' %}">
+            <a class="navbar-brand" th:href="@{/index}"> ВИРТУАЛЬНЫЙ ПОМОЩНИК ВОЛОНТЕРА </a>
             <div>
                 {% if user.is_authenticated %}
-                    <a class="navbar-brand logout-button"
-                        href="{% url 'logout' %}">
-                        Выйти
-                    </a>
+                    <a class="navbar-brand logout-button" href="{% url 'logout' %}"> Выйти </a>
                 {% endif %}
             </div>
         </div>
@@ -88,10 +87,7 @@
         <div class="access-denied">
             <h2>Доступ запрещен</h2>
             <p>У вас нет прав доступа к этой странице.</p>
-            <button class="button"
-                    onclick="window.location.href='{% url 'shelter_list' %}'">
-                    Вернуться к списку приютов
-            </button>
+            <button class="button" onclick="window.location.href='{% url 'shelter_list' %}'"> Вернуться к списку приютов </button>
         </div>
     </div>
 </body>

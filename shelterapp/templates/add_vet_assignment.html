@@ -66,25 +66,21 @@
         .form-container button:hover {
             background-color: rgb(90, 30, 200);
         }
+        .logo {
+            max-width: 150px;
+            height: auto;
+        }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
         <div class=".form-container">
-            <a class="navbar-brand"
-                th:href="@{/index}">
-                ВИРТУАЛЬНЫЙ ПОМОЩНИК ВОЛОНТЕРА
-            </a>
+            <img class="logo" alt="Логотип" src="{% static 'images/logo.png' %}">
+            <a class="navbar-brand" th:href="@{/index}"> ВИРТУАЛЬНЫЙ ПОМОЩНИК ВОЛОНТЕРА </a>
             <div>
                 {% if user.is_authenticated %}
-                    <a class="navbar-brand navbar-button"
-                        href="{% url 'profile' %}">
-                        Личный кабинет
-                    </a>
-                    <a class="navbar-brand navbar-button"
-                        href="{% url 'logout' %}">
-                        Выйти
-                    </a>
+                    <a class="navbar-brand navbar-button" href="{% url 'profile' %}"> Личный кабинет </a>
+                    <a class="navbar-brand navbar-button" href="{% url 'logout' %}"> Выйти </a>
                 {% endif %}
             </div>
         </div>
@@ -97,10 +93,7 @@
             <button type="submit">Добавить</button>
         </form>
         <div class="element_3"></div>
-        <button class="button"
-                onclick="window.location.href='{% url 'pet_detail' pet.id %}'">
-                Вернуться к питомцу
-        </button>
+        <button class="button" onclick="window.location.href='{% url 'pet_detail' pet.id %}'"> Вернуться к питомцу </button>
     </div>
 </body>
 </html>

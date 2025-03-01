@@ -53,25 +53,21 @@
         ul {
             list-style-type: none;
         }
+        .logo {
+            max-width: 150px;
+            height: auto;
+        }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
         <div class=".form-container">
-            <a class="navbar-brand"
-                th:href="@{/index}">
-                ВИРТУАЛЬНЫЙ ПОМОЩНИК ВОЛОНТЕРА
-            </a>
+            <img class="logo" alt="Логотип" src="{% static 'images/logo.png' %}">
+            <a class="navbar-brand" th:href="@{/index}"> ВИРТУАЛЬНЫЙ ПОМОЩНИК ВОЛОНТЕРА </a>
             <div>
                 {% if user.is_authenticated %}
-                    <a class="navbar-brand navbar-button"
-                        href="{% url 'profile' %}">
-                        Личный кабинет
-                    </a>
-                    <a class="navbar-brand navbar-button"
-                        href="{% url 'logout' %}">
-                        Выйти
-                    </a>
+                    <a class="navbar-brand navbar-button" href="{% url 'profile' %}"> Личный кабинет </a>
+                    <a class="navbar-brand navbar-button" href="{% url 'logout' %}"> Выйти </a>
                 {% endif %}
             </div>
         </div>
@@ -81,14 +77,8 @@
         <h2>Мои приюты</h2>
         <div class="element_1"></div>
         <div class="buttons">
-            <button class="button"
-                    onclick="window.location.href='{% url 'create_shelter' %}'">
-                    Создать новый приют
-            </button>
-            <button class="button"
-                    onclick="window.location.href='{% url 'search_shelters' %}'">
-                    Поиск приютов
-            </button>
+            <button class="button" onclick="window.location.href='{% url 'create_shelter' %}'"> Создать новый приют </button>
+            <button class="button" onclick="window.location.href='{% url 'search_shelters' %}'"> Поиск приютов </button>
         </div>
         <div class="element_3"></div>
         <ul>
@@ -98,16 +88,12 @@
                     <p>{{ shelter.address }}</p>
                     <p>{{ shelter.description }}</p>
                     {% if shelter.photo %}
-                        <img src="{{ shelter.photo.url }}"
-                            alt="{{ shelter.name }}"
-                            style="max-width: 200px;">
+                        <img src="{{ shelter.photo.url }}" alt="{{ shelter.name }}" style="max-width: 400px;">
                         <div class="element_1"></div>
                     {% endif %}
                     <div class="buttons">
                         {% if request.user != shelter.user %}
-                            <button class="button" onclick="window.location.href='{% url 'delete_shelter' shelter.id %}'">
-                                Удалить из списка
-                            </button>
+                            <button class="button" onclick="window.location.href='{% url 'delete_shelter' shelter.id %}'"> Удалить из списка </button>
                         {% endif %}
                     </div>
                 </li>
